@@ -1,0 +1,13 @@
+path: D:/NIENLUANNGANH/dataset
+train: images/train
+val:   images/val
+test:  images/test
+
+nc: 5
+names:
+  0: car
+  1: motorcycle
+  2: bus
+  3: truck
+  4: traffic_light
+

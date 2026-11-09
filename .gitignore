@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual Environment
+venv_nln/
+.venv/
+env/
+
+# PyTorch / Model files (qua nang de git)
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+
+# Dataset (luu tren o dia D, khong push len git)
+dataset/images/
+dataset/labels/
+videos/raw/
+videos/annotated/
+
+# Bang chung vi pham (du lieu ca nhan)
+evidence/
+
+# Experiment results
+experiments/
+runs/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Windows
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Temp
+*.tmp
+*.bak
+

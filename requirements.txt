@@ -1,0 +1,59 @@
+# ============================================================
+# REQUIREMENTS.TXT - Du an Nien Luan AI
+# De tai: Tu dong phat hien phuong tien vi pham den do
+# May: RTX 3050 6GB Laptop GPU | CUDA 12.4 | Python 3.11
+# ============================================================
+# LUU Y: Cai dat PyTorch TRUOC khi chay pip install -r requirements.txt
+# Lenh cai dat PyTorch CUDA 12.4:
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+# ============================================================
+
+# --- AI / Deep Learning Core ---
+ultralytics>=8.3.0          # YOLOv8, YOLOv11 framework (Detection + Tracking)
+torch>=2.4.0                # PyTorch (phai cai qua lenh CUDA o tren)
+torchvision>=0.19.0         # Xu ly anh cung cap boi PyTorch
+torchaudio>=2.4.0           # Phu tro audio (cho torch compat)
+
+# --- Computer Vision ---
+opencv-python>=4.10.0       # Xu ly anh video chinh (VideoCapture, draw, resize)
+Pillow>=10.4.0              # Doc/ghi anh, chuyen doi dinh dang
+
+# --- Numerical / Data Science ---
+numpy>=1.26.0               # Tinh toan ma tran, vector, bounding box
+scipy>=1.13.0               # Thuat toan khoa hoc, xu ly tin hieu
+pandas>=2.2.0               # Phan tich du lieu, bang so lieu thuc nghiem
+
+# --- Machine Learning Truyen Thong (Cho Giai doan 5: Benchmark) ---
+scikit-learn>=1.5.0         # KNN, Naive Bayes, SVM, Random Forest, metrics
+
+# --- Visualization ---
+matplotlib>=3.9.0           # Ve bieu do ma tran nham lan, loss curves
+seaborn>=0.13.0             # Bieu do nang cao (heatmap, violinplot)
+
+# --- Object Tracking (phu tro) ---
+filterpy>=1.4.5             # Kalman Filter (duoc dung boi BoT-SORT / ByteTrack)
+lapx>=0.5.10                # Linear Assignment (giai bai toan Hungarian Algorithm)
+
+# --- Configuration & Utilities ---
+PyYAML>=6.0.1               # Doc/ghi file config.yaml
+tqdm>=4.66.0                # Thanh tien trinh dep cho vong lap training/inference
+psutil>=6.0.0               # Theo doi RAM, CPU usage
+
+# --- GUI Demo (chon 1 trong 2 goi sau) ---
+# Lua chon 1: PyQt6 (Desktop GUI chuyen nghiep - khuyen nghi)
+PyQt6>=6.7.0
+# Lua chon 2: PySide6 (thay the tuong duong)
+# PySide6>=6.7.0
+
+# --- Logging & Experiment Tracking (nhe, cuc bo) ---
+loguru>=0.7.2               # Logging dep hon logging chuan
+
+# ============================================================
+# KHONG BAO GOM (Da loai bo de toi uu tai nguyen laptop):
+#   - FastAPI, Flask, Django (web server)
+#   - Redis, MongoDB, MinIO (database/storage phan tan)
+#   - Docker SDK
+#   - React/NodeJS dependencies
+#   - Kafka, RabbitMQ (message queue)
+# ============================================================
+

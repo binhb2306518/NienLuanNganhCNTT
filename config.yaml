@@ -1,0 +1,117 @@
+# ============================================================
+# CONFIG.YAML - Cau hinh trung tam he thong phat hien vi pham
+# De tai: Tu dong phat hien phuong tien vi pham den do
+# ============================================================
+
+# --- Duong dan chung ---
+paths:
+  project_root:   "D:/NIENLUANNGANH"
+  dataset_dir:    "D:/NIENLUANNGANH/dataset"
+  model_dir:      "D:/NIENLUANNGANH/models"
+  evidence_dir:   "D:/NIENLUANNGANH/evidence"
+  logs_dir:       "D:/NIENLUANNGANH/logs"
+  experiments_dir: "D:/NIENLUANNGANH/experiments"
+
+# --- Mo hinh ---
+model:
+  detector:         "D:/NIENLUANNGANH/models/pretrained/yolo11s.pt"
+  detector_type:    "yolo11s"       # yolo8s | yolo11s | yolo11n
+  use_fp16:         true            # Mixed Precision (tiet kiem VRAM)
+  device:           "cuda:0"        # cuda:0 | cpu
+  img_size:         640
+  conf_threshold:   0.45
+  iou_threshold:    0.45
+  classes:
+    - 0   # car
+    - 1   # motorcycle
+    - 2   # bus
+    - 3   # truck
+    - 4   # traffic_light
+
+# --- Tracker ---
+tracker:
+  algorithm:        "bytetrack"     # bytetrack | botsort
+  track_high_thresh: 0.5
+  track_low_thresh:  0.1
+  new_track_thresh:  0.6
+  track_buffer:     30              # So frame giu ID khi bi che khuat
+  match_thresh:     0.8
+
+# --- Traffic Light Classifier ---
+traffic_light:
+  method:           "hsv"           # hsv | yolo_cls
+  # ROI co dinh cua den tin hieu tren khung hinh (x1,y1,x2,y2 normalized)
+  roi_normalized:   [0.0, 0.0, 0.3, 0.3]
+  # Nguong mau HSV cho mau do (H_low, H_high, S_low, V_low)
+  red_hsv_range_1:  [0,   10,  120, 70]
+  red_hsv_range_2:  [170, 180, 120, 70]
+  green_hsv_range:  [45,  85,  100, 70]
+  yellow_hsv_range: [15,  35,  120, 70]
+  min_red_ratio:    0.15            # Ti le pixel do toi thieu
+  red_stable_frames: 15             # So frame den do on dinh truoc khi bat vi pham
+
+# --- Vach dung (Stop Line) va Vach xac nhan ---
+stop_line:
+  # Toa do vach dung (tinh theo pixel, dat bang chuot trong GUI)
+  # Dinh dang: [[x1, y1], [x2, y2]]
+  stop_line_coords:    [[100, 400], [900, 400]]
+  confirm_line_coords: [[100, 450], [900, 450]]  # Vach 2 cach vach 1 ~50px
+  # Yeu cau quy dao du dai moi xu ly vi pham
+  min_track_history:   10
+
+# --- Logic phat hien vi pham ---
+violation:
+  # Phuong tien bi xem xet vi pham: ["car", "motorcycle", "bus", "truck"]
+  vehicle_classes:     ["car", "motorcycle", "bus", "truck"]
+  # Buffer thoi gian: Xe phai con trong vung vi pham (giay)
+  time_buffer_sec:     1.0
+  # Cho phep re phai khi den do (goc re phai, do)
+  allow_right_turn:    false
+
+# --- Trich xuat bang chung ---
+evidence:
+  pre_frames:        75   # So frame luu truoc su kien (2.5 giay o 30fps)
+  post_frames:       75   # So frame luu sau su kien (2.5 giay o 30fps)
+  save_frames:       true # Luu 3 anh JPG (truoc, cat vach, sau)
+  save_clip:         true # Luu video clip MP4
+  output_format:     "mp4"
+  jpeg_quality:      95
+
+# --- Video dau vao ---
+video:
+  source:            ""   # Duong dan file MP4 hoac RTSP URL
+  fps_target:        30   # FPS muc tieu xu ly
+  resize_width:      1280 # Chieu rong sau resize (0 = giu nguyen)
+
+# --- Giao dien (GUI) ---
+gui:
+  framework:         "pyqt6"   # pyqt6 | streamlit
+  window_title:      "He Thong Phat Hien Vi Pham Den Giao Thong - NLN 2026"
+  display_fps:       true
+  display_vram:      true
+  trace_history:     30  # So diem ve duong quy dao
+
+# --- Dataset (cho training) ---
+dataset:
+  yaml_path:  "D:/NIENLUANNGANH/dataset/data.yaml"
+  nc:         5
+  names:      ["car", "motorcycle", "bus", "truck", "traffic_light"]
+  train:      "D:/NIENLUANNGANH/dataset/images/train"
+  val:        "D:/NIENLUANNGANH/dataset/images/val"
+  test:       "D:/NIENLUANNGANH/dataset/images/test"
+
+# --- Training ---
+training:
+  model:      "yolo11s.pt"
+  epochs:     50
+  imgsz:      640
+  batch:      16          # Giam xuong 8 neu OOM
+  amp:        true        # Automatic Mixed Precision
+  patience:   15          # Early stopping
+  save_period: 5          # Luu checkpoint moi 5 epoch
+  project:    "D:/NIENLUANNGANH/experiments"
+  name:       "yolo11s_traffic_v1"
+  device:     "0"         # GPU index
+  workers:    4
+  cache:      false       # Bat len true neu RAM du (> 8GB trong)
+

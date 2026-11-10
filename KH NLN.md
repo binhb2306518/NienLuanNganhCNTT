@@ -380,9 +380,10 @@ GIAI DOAN 1: NGHIEN CUU TONG QUAN VA THIET LAP CAU HOI KHOA HOC
 - Rui ro: Sa da vao ly thuyet qua rong khong sat de tai.
 - Xu ly: Chi tap trung vao Detection, Tracking va phat hien trang thai den giao thong.
 8. Checklist trang thai:
-- [ ] Tong hop tai lieu ve YOLOv8 va YOLOv11
-- [ ] Tong hop tai lieu ve ByteTrack va BoT-SORT
-- [ ] Xay dung bo cau hoi nghien cuu ro rang
+- [X] Tong hop tai lieu ve YOLOv8 va YOLOv11 (Da hoan thanh - So sanh kien truc C2f vs C3k2, C2PSA, params, mAP)
+- [X] Tong hop tai lieu ve ByteTrack va BoT-SORT (Da hoan thanh - Phan tich chi tiet D_low, CMC Lucas-Kanade+RANSAC, IDF1 77.3% vs 78.7%)
+- [X] Xay dung bo cau hoi nghien cuu ro rang (Da hoan thanh - 5 RQ: Detection, Tracking, Traffic Light, Violation Logic, System FPS)
+Cap nhat: 2026-11-10 - Giai doan 1 DA HOAN THANH 100%. File bao_cao_tong_quan_khoa_hoc.md da tao voi 13 tai lieu tham khao, 5 research gaps dac thu giao thong Viet Nam.
 9. Uoc luong thoi gian: 3 - 5 ngay.
 
 --------------------------------------------------------------------------------

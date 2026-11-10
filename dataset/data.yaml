@@ -1,13 +1,51 @@
+# ============================================================
+# data.yaml — Cấu hình Dataset YOLO chuẩn
+# Dự án: Hệ thống Phát hiện Phương tiện Vi phạm Đèn Giao thông
+# Sinh viên: Nguyễn Thanh Bình — B2306518 — CT466E — ĐH Cần Thơ
+# ============================================================
+
+# Đường dẫn gốc dataset (tuyệt đối để tránh lỗi khi chạy từ nhiều thư mục)
 path: D:/NIENLUANNGANH/dataset
-train: images/train
-val:   images/val
-test:  images/test
 
-nc: 5
+# Đường dẫn ảnh tương đối so với `path`
+train: images/train    # ~70% số video
+val:   images/val      # ~15% số video
+test:  images/test     # ~15% số video — Tuyệt đối không trùng với train/val
+
+# ─── Thông tin dataset ────────────────────────────────────────
+# Phương pháp chia: Video-level Split (KHÔNG dùng frame-level random shuffle)
+# → Mỗi video được gán nguyên vẹn vào 1 split để tránh Data Leakage.
+# Nguồn dữ liệu: Video camera giao thông tại nút giao thực tế Việt Nam
+# Môi trường: Ngoài trời, ánh sáng thay đổi, mật độ xe cao, nhiều xe máy.
+
+# ─── Lớp đối tượng ────────────────────────────────────────────
+nc: 5  # Number of classes
+
 names:
-  0: car
-  1: motorcycle
-  2: bus
-  3: truck
-  4: traffic_light
+  0: car           # Ô tô con (sedan, SUV, minivan)
+  1: motorcycle    # Xe máy, xe gắn máy (đặc thù giao thông Việt Nam)
+  2: bus           # Xe buýt, xe khách
+  3: truck         # Xe tải các loại
+  4: traffic_light # Đèn tín hiệu giao thông (đỏ/vàng/xanh)
 
+# ─── Mục tiêu annotation ───────────────────────────────────────
+# Format nhãn: YOLO TXT (1 file .txt cho mỗi ảnh)
+# Mỗi dòng: class_id  x_center  y_center  width  height  (normalize [0,1])
+# Ví dụ: 1 0.5234 0.6710 0.0812 0.1234   ← xe máy ở giữa ảnh
+
+# ─── Chú thích annotation ─────────────────────────────────────
+# car (0):          BBox bao toàn bộ thân xe, bao gồm gương chiếu hậu
+# motorcycle (1):   BBox bao người + xe, bao gồm mũ bảo hiểm nếu nhìn thấy
+# bus (2):          BBox bao toàn bộ xe buýt kể cả phần trên nóc xe
+# truck (3):        BBox bao toàn bộ xe tải, kể cả thùng hàng
+# traffic_light (4): BBox chỉ bao phần chứa các bóng đèn (không kể cột đèn)
+
+# ─── Mục tiêu chỉ tiêu tối thiểu ──────────────────────────────
+# Detection: mAP@0.5 ≥ 0.70, mAP@0.5:0.95 ≥ 0.45
+# Tracking:  HOTA ≥ 0.60, IDF1 ≥ 0.65, ID Switches ≤ 100/video
+# System:    FPS ≥ 20 trên RTX 3050 6GB (inference only)
+
+# ─── Script liên quan ──────────────────────────────────────────
+# Kiểm tra dữ liệu: python scripts/data_checker.py
+# Tổ chức dataset:  python scripts/organize_dataset.py split
+# Trích frame:      python scripts/organize_dataset.py extract

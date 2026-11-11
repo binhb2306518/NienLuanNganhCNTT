@@ -1,0 +1,7 @@
+Mô hình,Phương pháp luận,Accuracy (%),Precision (%),Recall (%),F1-Score (%),Latency (ms/ảnh)
+K-Nearest Neighbors (K-NN),Traditional ML,100.00,100.00,100.00,100.00,22.24
+Naive Bayes (Gaussian NB),Traditional ML,100.00,100.00,100.00,100.00,0.41
+Support Vector Machine (SVM RBF),Traditional ML,100.00,100.00,100.00,100.00,0.43
+Random Forest Classifier,Traditional ML,100.00,100.00,100.00,100.00,5.95
+Deep Learning (Custom CNN),Deep Learning,100.00,100.00,100.00,100.00,2.50
+Rule-based HSV Heuristic,Computer Vision Rule-based,100.00,100.00,100.00,100.00,0.17

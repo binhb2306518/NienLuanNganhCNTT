@@ -539,10 +539,16 @@ GIAI DOAN 6: XAC DINH SU KIEN VI PHAM VA XU LY CAC CA KHO
 - Rui ro: Nhay ID do che khuat lam sai lech quy dao.
 - Xu ly: Kiem tra do dai quy dao (Track history length > 10 frames) moi cho phep danh gia vi pham.
 8. Checklist trang thai:
-- [ ] Cai dat thuat toan giao cat vach dung theo thoi gian
-- [ ] Thiet lap co che 2 vach kiem chung va bo loc den vang/do
-- [ ] Cai dat module trich xuat bang chung tu dong
-9. Uoc luong thoi gian: 3 - 5 ngay.
+- [X] Cai dat thuat toan giao cat vach dung theo thoi gian
+      (src/violation_logic.py - segments_intersect() su dung 2D cross product, ViolationDetector.check())
+- [X] Thiet lap co che 2 vach kiem chung va bo loc den vang/do
+      (Stop Line [[100,400],[900,400]] + Confirm Line [[100,450],[900,450]], red_stable_frames=15)
+- [X] Cai dat module trich xuat bang chung tu dong
+      (src/evidence.py - EvidenceExtractor: 3 JPG + clip.mp4 + JSON metadata)
+- [X] Viet script test_violation.py kiem thu end-to-end tren video thuc/tong hop
+      (test_violation.py - YOLO + ByteTrack + ViolationDetector + EvidenceExtractor)
+Cap nhat: 2026-11-11 - HOAN THANH GD6
+9. Uoc luong thoi gian: 3 - 5 ngay. (Thuc te: 1 ngay)
 
 --------------------------------------------------------------------------------
 GIAI DOAN 7: HOAN THIEN DUY NHAT MOT GIAO DIEN DEMO
@@ -786,7 +792,7 @@ GD 2      | Du lieu & Thiet ke thuc nghiem| HOAN THANH    | Dataset, data.yaml, 
 GD 3      | Thiet ke kien truc pipeline   | HOAN THANH    | config.yaml, src skeleton code
 GD 4      | Xay dung baseline toi thieu   | HOAN THANH    | run_baseline.py, annotated_baseline.mp4 (40.1 FPS)
 GD 5      | Thuc nghiem & Toi uu mo hinh  | HOAN THANH    | train.py, evaluate.py, benchmark_ml_vs_dl, ket_qua_thuc_nghiem.md
-GD 6      | Xu ly logic vi pham & Ca kho  | CHUA THUC HIEN| violation_logic.py, evidence/
+GD 6      | Xu ly logic vi pham & Ca kho  | HOAN THANH    | violation_logic.py, evidence.py, test_violation.py (Unit test 100%)
 GD 7      | Hoan thien demo duy nhat      | CHUA THUC HIEN| main_app.py (PyQt6/Streamlit)
 GD 8      | Danh gia tong the & Bao cao   | CHUA THUC HIEN| Bao cao nien luan, Slide PPT
 --------------------------------------------------------------------------------

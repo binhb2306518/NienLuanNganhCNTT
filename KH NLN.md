@@ -574,10 +574,15 @@ GIAI DOAN 7: HOAN THIEN DUY NHAT MOT GIAO DIEN DEMO
 - Rui ro: Pipeline AI chay tren cung luong voi GUI lam dong bang giao dien.
 - Xu ly: Su dung QThread hoac Worker Thread tach biet giua luong doc/suy luan video va luong ve giao dien.
 8. Checklist trang thai:
-- [ ] Thiet ke layout giao dien duy nhat
-- [ ] Tich hop Worker Thread ket noi pipeline AI voi GUI
-- [ ] Tich hop chuc nang click xem lai bang chung vi pham
-9. Uoc luong thoi gian: 3 - 5 ngay.
+- [X] Thiet ke layout giao dien duy nhat
+      (gui/main_window.py, gui/widgets.py - Catppuccin Mocha Dark Theme, 3 panel truc quan)
+- [X] Tich hop Worker Thread ket noi pipeline AI voi GUI
+      (gui/pipeline_worker.py - QThread chay tach biet YOLOv8s/v11s + ByteTrack + ViolationDetector)
+- [X] Tich hop chuc nang click xem lai bang chung vi pham
+      (EvidencePanel: 3 anh JPG frame_before, frame_crossing, frame_after + nut phat clip.mp4 + mo thu muc)
+- [X] Hoan tat diem khoi dong main.py va main_app.py chay on dinh bang PyQt6
+Cap nhat: 2026-11-11 - HOAN THANH GD7
+9. Uoc luong thoi gian: 3 - 5 ngay. (Thuc te: 1 ngay)
 
 --------------------------------------------------------------------------------
 GIAI DOAN 8: DANH GIA TONG THE, THUC NGHIEM TOAN DIEN VA VIET BAO CAO
@@ -793,7 +798,7 @@ GD 3      | Thiet ke kien truc pipeline   | HOAN THANH    | config.yaml, src ske
 GD 4      | Xay dung baseline toi thieu   | HOAN THANH    | run_baseline.py, annotated_baseline.mp4 (40.1 FPS)
 GD 5      | Thuc nghiem & Toi uu mo hinh  | HOAN THANH    | train.py, evaluate.py, benchmark_ml_vs_dl, ket_qua_thuc_nghiem.md
 GD 6      | Xu ly logic vi pham & Ca kho  | HOAN THANH    | violation_logic.py, evidence.py, test_violation.py (Unit test 100%)
-GD 7      | Hoan thien demo duy nhat      | CHUA THUC HIEN| main_app.py (PyQt6/Streamlit)
+GD 7      | Hoan thien demo duy nhat      | HOAN THANH    | main.py, main_app.py, gui/ (PyQt6 Desktop App)
 GD 8      | Danh gia tong the & Bao cao   | CHUA THUC HIEN| Bao cao nien luan, Slide PPT
 --------------------------------------------------------------------------------
 

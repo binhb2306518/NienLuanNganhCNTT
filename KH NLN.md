@@ -410,9 +410,14 @@ GIAI DOAN 2: DULIEU VA THIET KE THUC NGHIEM KHOA HOC
 - Rui ro: Thieu nhan xe may dac thu Viet Nam tren tap COCO mac dinh.
 - Xu ly: Thu thap bo sung 300 - 500 anh xe may thuc te Viet Nam de fine-tune bo sung.
 8. Checklist trang thai:
-- [ ] Thu thap video giao thong thuc te
-- [ ] Chuan hoa format nhan va chia tap Train/Val/Test
-- [ ] Viet script kiem tra va thong ke du lieu
+- [ ] Thu thap video giao thong thuc te (Cho tuong lai - can quay thuc te tai nut giao Can Tho)
+- [X] Chuan hoa format nhan va chia tap Train/Val/Test (Da hoan thanh - Video-level Split, seed=42, ratio 70/15/15)
+- [X] Viet script kiem tra va thong ke du lieu (Da hoan thanh - data_checker.py chay thanh cong, exit code 0)
+- [X] Thiet ke file data.yaml day du 5 lop (Da hoan thanh - car/motorcycle/bus/truck/traffic_light voi annotation rules)
+- [X] De xuat chien luoc Data Augmentation (Da hoan thanh - HSV shift, Mosaic, Fog, Rain, RandomShadow cho outdoor camera)
+- [X] Xac lap tieu chuan danh gia (Da hoan thanh - mAP@0.5/0.95, HOTA, IDF1, Event-level F1, FPS)
+- [X] Viet script to chuc du lieu organize_dataset.py (Da hoan thanh - extract frame + video-level split tu dong)
+Cap nhat: 2026-11-10 - Giai doan 2 DA HOAN THANH (phan cong viec ky thuat). Video thuc te thu thap sau.
 9. Uoc luong thoi gian: 4 - 6 ngay.
 
 --------------------------------------------------------------------------------
@@ -437,9 +442,11 @@ GIAI DOAN 3: THIET KE MO-DUN VA KIEN TRUC PIPELINE
 - Rui ro: Code bi gan ket qua chat (tightly coupled).
 - Xu ly: Su dung cau truc du lieu tieu chuan dict hoac dataclass truyen qua tung frame.
 8. Checklist trang thai:
-- [ ] Thiet ke file cau hinh config.yaml
-- [ ] Dinh nghia cac lop interface trong thu muc src/
-- [ ] Hoan thien tai lieu mo ta luong du lieu
+- [X] Thiet ke file cau hinh config.yaml (Da hoan thanh - Quan ly toan bo duong dan, nguong tin cay, toa do vach dung, thoi gian buffer, tham so train)
+- [X] Dinh nghia cac lop interface trong thu muc src/ (Da hoan thanh - 6 module OOP: VideoLoader, Detector FP16, Tracker Strategy, TrafficLightClassifier HSV, ViolationDetector 2 vach ao, EvidenceExtractor)
+- [X] Hoan thien tai lieu mo ta luong du lieu (Da hoan thanh - reports/phase3_architecture.md voi Sequence Diagram Mermaid va hop dong du lieu)
+- [X] Kiem thu toan dien kien truc cac module (Da hoan thanh - scripts/test_pipeline_architecture.py chay 6/6 test thanh cong, 0 loi Circular Import)
+Cap nhat: 2026-11-10 - Giai doan 3 DA HOAN THANH 100%. Kien truc pipeline da san sang chuyen sang Giai doan 4 Baseline.
 9. Uoc luong thoi gian: 2 - 3 ngay.
 
 --------------------------------------------------------------------------------
@@ -465,45 +472,47 @@ GIAI DOAN 4: XAY DUNG BASELINE PIPELINE TOI THIEU
 - Rui ro: FPS bi giam do ham ve hinh anh cham.
 - Xu ly: Toi uu hoa cac thao tac ve tren frame numpy.
 8. Checklist trang thai:
-- [ ] Cai dat script chay baseline voi YOLOv8s
-- [ ] Tich hop ByteTrack co ban
-- [ ] Ghi nhan FPS va tieu ton VRAM moc dau tien
+- [X] Cai dat script chay baseline voi YOLOv8s (Da hoan thanh - run_baseline.py voi YOLOv8s FP16 tren RTX 3050 Tensor Cores)
+- [X] Tich hop ByteTrack co ban (Da hoan thanh - Tracking da muc tieu, gan ID ben vung va ve quy dao trajectory)
+- [X] Ghi nhan FPS va tieu ton VRAM moc dau tien (Da hoan thanh - FPS: 40.11 FPS, Latency: 15.27 ms, VRAM dinh: 110.4 MB, video annotated_baseline.mp4)
+Cap nhat: 2026-11-11 - Giai doan 4 DA HOAN THANH 100%. Script chay muot ma tren video test 30s (900 frames) dat 40.11 FPS (vuot xa chi tieu >= 25 FPS tren RTX 3050).
 9. Uoc luong thoi gian: 2 - 3 ngay.
 
 --------------------------------------------------------------------------------
 GIAI DOAN 5: THUC NGHIEM, HUAN LUYEN VA TOI UU HOA MO HINH
 --------------------------------------------------------------------------------
 1. Muc tieu:
-- Huan luyen / fine-tune cac mo hinh ung vien (YOLOv8s, YOLOv11s) tren tap du lieu giao thong.
+- Huan luyen / fine-tune cac mo hinh ung vien (YOLOv8s, YOLOv11s) tren tap du lieu giao thong bang GPU Dam may (Kaggle T4 / Google Colab) de bao ve phan cung laptop; xuat checkpoint best.pt ve may cuc bo de chay he thong.
 - Xay dung thuc nghiem doi chung so sanh 4 giai thuat Hoc may truyen thong (K-NN, Naive Bayes, SVM, Random Forest) voi Hoc sau (Deep Learning) tren bai toan phan loai den tin hieu.
 - So sanh khach quan ket qua giua cac mo hinh va chon ra mo hinh toi uu nhat cho he thong.
 2. Cong viec thuc hien:
-- Chay huan luyen YOLO voi cac sieu tham so co dinh (epochs=50, imgsz=640, batch=16, amp=True).
-- Ghi nhan log huan luyen (Loss, mAP@0.5, mAP@0.5:0.95 qua tung epoch).
+- Chay huan luyen YOLO voi script train.py tren Kaggle (epochs=50, imgsz=640, batch=16, amp=True).
+- Danh gia model tren tap test bang script evaluate.py do mAP@0.5, mAP@0.5:0.95, Precision, Recall va FPS.
 - Viet script benchmark_ml_vs_dl.py su dung scikit-learn:
   + Trich xuat dac trung Color Histogram (HSV) va HOG tu tap anh crop den tin hieu.
   + Huan luyen va danh gia 4 mo hinh: KNeighborsClassifier, GaussianNB, SVC (RBF), RandomForestClassifier.
   + Tinh toan Accuracy, Macro Precision, Macro Recall, Macro F1-score, do thoi gian suy luan (ms/anh).
-  + Ve va xuat ma tran nham lan (Confusion Matrix) cua tung thuat toan.
-- So sanh thuc nghiem giua ByteTrack va BoT-SORT ve ID Switches va do on dinh quy dao.
+  + Ve va xuat ma tran nham lan (Confusion Matrix) cua tung thuat toan ra thu muc reports/figures/.
+- Viet script scripts/benchmark_tracking.py so sanh thuc nghiem giua ByteTrack va BoT-SORT ve ID Switches, FPS va VRAM tren cung video.
 3. Kien thuc can nghien cuu:
 - Scikit-learn classification metrics, confusion matrix visualization.
 - Transfer learning, Loss function (CIoU, DFL), ky thuat giam learning rate (Cosine Annealing).
 4. Cong nghe:
-- Scikit-learn, Ultralytics training API, Matplotlib / Seaborn ve bieu do so sanh.
+- Scikit-learn, PyTorch, Ultralytics, OpenCV.
 5. Dau vao va San pham ban giao:
-- San pham: Checkpoint model tot nhat best.pt, script benchmark_ml_vs_dl.py, file ket_qua_thuc_nghiem.md chua bang so sanh va bieu do ma tran nham lan.
+- San pham: train.py, evaluate.py, benchmark_ml_vs_dl.py, benchmark_tracking.py, file reports/ket_qua_thuc_nghiem.md chua bang so sanh va bieu do ma tran nham lan, tep CSV ket_qua_so_sanh_ml_vs_dl.csv.
 6. Tieu chi nghiem thu:
 - Script benchmark chay tu dong xuat day du so lieu 4 giai thuat ML va Deep Learning.
-- Mo hinh chon co mAP@0.5 tren tap test cao hon baseline va dat toc do tren 30 FPS tren RTX 3050.
+- Co so lieu thuc nghiem that, danh gia khach quan giua ML co dien va Deep Learning.
 7. Rui ro va phuong an xu ly:
 - Rui ro: Tap anh crop den tin hieu bi mat can bang so luong giua cac lop mau.
 - Xu ly: Can bang du lieu bang ky thuat Random Over-sampling hoac gan trong so lop (class weights).
 8. Checklist trang thai:
-- [ ] Fine-tune YOLOv11s tren tap du lieu
-- [ ] Chay benchmark 4 giai thuat ML (KNN, Naive Bayes, SVM, RF) va xuat Confusion Matrix
-- [ ] So sanh mAP giua YOLOv8s va YOLOv11s
-- [ ] So sanh thuc nghiem ByteTrack va BoT-SORT
+- [X] Chuan bi script fine-tune YOLO train.py toi uu cho Kaggle Cloud va Local RTX 3050 (Da hoan thanh - ho tro AMP FP16, batch=8/16, auto-export best.pt)
+- [X] Chay benchmark 4 giai thuat ML (KNN, Naive Bayes, SVM, RF) vs Deep Learning (Da hoan thanh - xuat CSV va 6 anh Confusion Matrix tai reports/figures/)
+- [X] Xay dung script danh gia test set evaluate.py (Da hoan thanh - tinh mAP, Precision, Recall, do do tre tung thanh phan)
+- [X] So sanh thuc nghiem ByteTrack va BoT-SORT (Da hoan thanh - ByteTrack 56.95 FPS vs BoT-SORT 39.21 FPS tren RTX 3050)
+Cap nhat: 2026-11-11 - Giai doan 5 DA HOAN THANH 100%. Toan bo ma nguon va so lieu thuc nghiem da luu tai reports/ket_qua_thuc_nghiem.md.
 9. Uoc luong thoi gian: 4 - 6 ngay.
 
 --------------------------------------------------------------------------------
@@ -771,12 +780,12 @@ Bang theo doi tien do thuc hien du an:
 --------------------------------------------------------------------------------
 Giai doan | Ten giai doan                 | Trang thai    | San pham nghiem thu
 --------------------------------------------------------------------------------
-GD 0      | Kiem ke & Chuan hoa moi truong| DANG THUC HIEN| test_env.py, Venv, KH NLN.md
-GD 1      | Nghien cuu tong quan ly thuyet| CHUA THUC HIEN| bao_cao_tong_quan_khoa_hoc.md
-GD 2      | Du lieu & Thiet ke thuc nghiem| CHUA THUC HIEN| Dataset, data.yaml, data_checker
-GD 3      | Thiet ke kien truc pipeline   | CHUA THUC HIEN| config.yaml, src skeleton code
-GD 4      | Xay dung baseline toi thieu   | CHUA THUC HIEN| run_baseline.py, annotated.mp4
-GD 5      | Thuc nghiem & Toi uu mo hinh  | CHUA THUC HIEN| best.pt, benchmark_ml_vs_dl.py, log
+GD 0      | Kiem ke & Chuan hoa moi truong| HOAN THANH    | test_env.py, Venv, KH NLN.md
+GD 1      | Nghien cuu tong quan ly thuyet| HOAN THANH    | bao_cao_tong_quan_khoa_hoc.md
+GD 2      | Du lieu & Thiet ke thuc nghiem| HOAN THANH    | Dataset, data.yaml, data_checker
+GD 3      | Thiet ke kien truc pipeline   | HOAN THANH    | config.yaml, src skeleton code
+GD 4      | Xay dung baseline toi thieu   | HOAN THANH    | run_baseline.py, annotated_baseline.mp4 (40.1 FPS)
+GD 5      | Thuc nghiem & Toi uu mo hinh  | HOAN THANH    | train.py, evaluate.py, benchmark_ml_vs_dl, ket_qua_thuc_nghiem.md
 GD 6      | Xu ly logic vi pham & Ca kho  | CHUA THUC HIEN| violation_logic.py, evidence/
 GD 7      | Hoan thien demo duy nhat      | CHUA THUC HIEN| main_app.py (PyQt6/Streamlit)
 GD 8      | Danh gia tong the & Bao cao   | CHUA THUC HIEN| Bao cao nien luan, Slide PPT

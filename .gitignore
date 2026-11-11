@@ -27,6 +27,8 @@ dataset/images/
 dataset/labels/
 videos/raw/
 videos/annotated/
+*.mp4
+*.avi
 
 # Bang chung vi pham (du lieu ca nhan)
 evidence/
